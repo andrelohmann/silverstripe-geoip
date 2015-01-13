@@ -11,6 +11,8 @@ class Geoip {
 	private static $enabled = true;
 	
 	private static $default_country_code = false;
+        
+        private static $default_server_var = 'REMOTE_ADDR';//'HTTP_X_FORWARDED_FOR'
 
 	/** 
 	 * ISO 3166 Country Codes
@@ -307,6 +309,24 @@ class Geoip {
 		return self::$default_country_code;
 	}
 	
+	/**
+	 * Set the default server_var
+	 *
+	 * @param string $server_var
+	 */
+	public static function set_default_server_var($server_var) {
+		self::$default_server_var = $server_var;
+	}
+	
+	/**
+	 * Returns the default server_var
+	 * 
+	 * @return string
+	 */
+	public static function get_default_server_var() {
+		return self::$default_server_var;
+	}
+	
 	/** 
 	 * Find the country for an IP address.
 	 * 
@@ -369,8 +389,8 @@ class Geoip {
 		if (Director::isDev() && isset($_GET['country'])){
 			 $code = $_GET['country'];
 		}
-		elseif (isset($_SERVER['REMOTE_ADDR']) && self::is_enabled()) {
-			$code = Geoip::ip2country($_SERVER['REMOTE_ADDR'], true);
+		elseif (isset($_SERVER[self::get_default_server_var()]) && self::is_enabled()) {
+			$code = Geoip::ip2country($_SERVER[self::get_default_server_var()], true);
 		}	
 		  
 		// if geoip fails, lets default to default country code (if any)
