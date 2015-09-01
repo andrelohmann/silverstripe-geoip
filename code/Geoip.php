@@ -12,7 +12,7 @@ class Geoip {
 	
 	private static $default_country_code = false;
         
-        private static $default_server_var = 'REMOTE_ADDR';//'HTTP_X_FORWARDED_FOR'
+    private static $default_server_var = 'REMOTE_ADDR';//'HTTP_X_FORWARDED_FOR'
 
 	/** 
 	 * ISO 3166 Country Codes
